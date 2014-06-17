@@ -1,7 +1,10 @@
 from django.template import RequestContext
 from django.shortcuts import render_to_response
+from django.core.urlresolvers import reverse
+from django.http import HttpResponseRedirect
 
 from rango.models import Category, Page
+from rango.forms import CategoryForm, PageForm
 
 def encode_url( name ):
     return name.replace(' ', '_')
@@ -33,7 +36,9 @@ def category(request, category_name_url):
 
     #Encode spaces in Categories with underscores
     category_name = decode_url( category_name_url )
-    context_dict = {'category_name': category_name}
+    context_dict = {'category_name': category_name,
+                    'category_name_url': category_name_url,
+                   }
 
     try:
         category = Category.objects.get(name=category_name)
@@ -46,3 +51,51 @@ def category(request, category_name_url):
         pass
 
     return render_to_response('rango/category.html', context_dict, context)
+
+def add_category(request):
+    context = RequestContext(request)
+
+    if request.method == 'POST':
+        form = CategoryForm( request.POST )
+
+        if form.is_valid():
+            form.save(commit=True)
+
+            return HttpResponseRedirect( reverse('index') )
+        else:
+            print form.errors
+    else:
+        form = CategoryForm()
+
+    return render_to_response('rango/add_category.html', {'form': form}, context)
+
+def add_page(request, category_name_url):
+    context = RequestContext(request)
+
+    category_name = decode_url(category_name_url)
+    if request.method == 'POST':
+        form = PageForm(request.POST)
+
+        if form.is_valid():
+            page = form.save(commit=False)
+
+            try:
+                cat = Category.objects.get(name=category_name)
+                page.category = cat
+            except Category.DoesNotExist:
+                return render_to_response('rango/add_category.html', {}, context)
+
+            page.views = 0
+
+            page.save()
+
+            return HttpResponseRedirect( reverse( 'category', args=(category_name_url,) ) )
+        else:
+            print form.errors
+    else:
+        form = PageForm()
+
+    return render_to_response( 'rango/add_page.html',
+            {'category_name_url': category_name_url,
+             'category_name': category_name, 'form': form},
+             context)        

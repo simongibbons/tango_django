@@ -21,3 +21,6 @@ python populate_rango.py
 *  Completed Chapter 6 + Exercises
   * The URL encoding method seems wrong, perhaps I should see
     how urllib could be used here.
+*  Completed Chapter 7 + Exercises
+  * I've improved on the example code to always reuturn a HttpRedirect
+    when responding to a POST request.
