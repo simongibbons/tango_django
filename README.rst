@@ -9,7 +9,7 @@ As I go along I'll update this README with my progress.
 To setup and populate the database for this run
 
 ```
-python manage.py syncdb
+python manage.py syncdb\\
 python populate_rango.py
 ```
 
