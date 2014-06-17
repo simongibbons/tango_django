@@ -15,18 +15,18 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <strong>There are no categories present.</strong>
+            <strong>There are no categories present.</strong><br />
         {% endif %}
 
         {% if pages %}
             <strong>The Top {{ pages|length }} Pages are:</strong>
             <ul>
                 {% for page in pages %}
-                <li><a href="page/{{ page.url }}">{{ page.title }}</a></li>
+                <li><a href="{{ page.url }}">{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
-            <strong>There are no pages present.</strong>
+            <strong>There are no pages present.</strong><br />
         {% endif %}
 
         <a href="about/">About</a><br />
