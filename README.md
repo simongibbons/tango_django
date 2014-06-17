@@ -24,3 +24,7 @@ python populate_rango.py
 *  Completed Chapter 7 + Exercises
   * I've improved on the example code to always reuturn a HttpRedirect
     when responding to a POST request.
+* Completed Chapter 8 (Exercises still to do)
+  * I've extended the system so that if you attempt to view a restricted
+    page and are forced to login when you login you are then redirected to
+    the page that you originally requested.
