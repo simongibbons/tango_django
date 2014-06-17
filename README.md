@@ -18,3 +18,4 @@ python populate_rango.py
   * What is the best way of structuring templates? c.f. this
     tutorial and the official one?
 *  Completed Chapter 5 + Exercises
+*  Completed Chapter 6 + Exercises
