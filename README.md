@@ -19,3 +19,5 @@ python populate_rango.py
     tutorial and the official one?
 *  Completed Chapter 5 + Exercises
 *  Completed Chapter 6 + Exercises
+  * The URL encoding method seems wrong, perhaps I should see
+    how urllib could be used here.
