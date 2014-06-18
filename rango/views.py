@@ -57,6 +57,7 @@ def category(request, category_name_url):
 
     return render_to_response('rango/category.html', context_dict, context)
 
+@login_required
 def add_category(request):
     context = RequestContext(request)
 
@@ -74,6 +75,7 @@ def add_category(request):
 
     return render_to_response('rango/add_category.html', {'form': form}, context)
 
+@login_required
 def add_page(request, category_name_url):
     context = RequestContext(request)
 
@@ -145,12 +147,14 @@ def register(request):
 def user_login(request):
     context = RequestContext(request)
 
+    context_dict = {}
+    requested_page = request.GET.get('next', reverse('index'))
+    context_dict['requested_page'] = requested_page
+
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
 
-        requested_page = request.GET.get('next', reverse('index'))
-        print requested_page
 
         user = authenticate(username=username, password=password)
 
@@ -159,15 +163,15 @@ def user_login(request):
                 login(request, user)
                 return HttpResponseRedirect( requested_page )
             else:
-                return HttpResponse("Your Rango account is disabled.")
+                context_dict['error_text'] = "User is disabled"
+                return render_to_response('rango/login.html', context_dict, context)
         else:
             print "Invalid login details: {0}, {1}".format(username, password)
-            return HttpResponse("Invalid login details supplied.")
+            context_dict['error_text'] = "Invalid Username or Password"
+            return render_to_response('rango/login.html', context_dict, context)
 
     else:
-        requested_page = request.GET.get('next','')
-
-        return render_to_response('rango/login.html', {'requested_page': requested_page}, context)
+        return render_to_response('rango/login.html', context_dict, context)
 
 @login_required
 def restricted(request):

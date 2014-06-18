@@ -11,6 +11,10 @@
         {% else %}
         <form id="login_form" method="post" action="/rango/login/">
         {% endif %}
+            {% if error_text %}
+            <strong> {{ error_text }} </strong><br />
+            {% endif %}
+            
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br />
